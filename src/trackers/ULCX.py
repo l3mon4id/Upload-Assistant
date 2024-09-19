@@ -15,6 +15,7 @@ class ULCX:
         self.source_flag = "ULCX"
         self.upload_url = "https://upload.cx/api/torrents/upload"
         self.search_url = "https://upload.cx/api/torrents/filter"
+        self.signature = "\n[center][url=https://github.com/Audionut/Upload-Assistant]Created by L4G's Upload Assistant[/url][/center]"
         self.banned_groups = [
             "Tigole",
             "x0r",
@@ -47,7 +48,6 @@ class ULCX:
             "EDGE2020",
             "FnP",
         ]
-        pass
 
     async def get_cat_id(self, category_name):
         category_id = {
@@ -83,17 +83,13 @@ class ULCX:
         }.get(resolution, "10")
         return resolution_id
 
-    ###############################################################
-    ######   STOP HERE UNLESS EXTRA MODIFICATION IS NEEDED   ######
-    ###############################################################
-
     async def upload(self, meta):
         common = COMMON(config=self.config)
         await common.edit_torrent(meta, self.tracker, self.source_flag)
         cat_id = await self.get_cat_id(meta["category"])
         type_id = await self.get_type_id(meta["type"])
         resolution_id = await self.get_res_id(meta["resolution"])
-        await common.unit3d_edit_desc(meta, self.tracker)
+        await common.unit3d_edit_desc(meta, self.tracker, signature=self.signature)
         region_id = await common.unit3d_region_ids(meta.get("region"))
         distributor_id = await common.unit3d_distributor_ids(meta.get("distributor"))
         if meta["anon"] != 0 or self.config["TRACKERS"][self.tracker].get(
