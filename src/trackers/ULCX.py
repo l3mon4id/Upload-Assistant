@@ -101,7 +101,7 @@ class ULCX:
 
         modq = await self.get_flag(meta, "modq")
 
-        if meta["bdinfo"] != None:
+        if meta["bdinfo"] is not None:
             mi_dump = None
             bd_dump = open(
                 f"{meta['base_dir']}/tmp/{meta['uuid']}/BD_SUMMARY_00.txt",
